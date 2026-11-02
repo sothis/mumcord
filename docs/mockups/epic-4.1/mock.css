@@ -1,0 +1,92 @@
+/*
+ * Mockup-only styles for Epic 4.1 (file sharing). Everything else comes from the app's real CSS.
+ * New components (file card, file chip, drop overlay, risky dialog) are built from the same tokens
+ * and from the audio card, attachment tray, plugin progress bar and app dialog they extend.
+ */
+/* Fixed 1440×900 window for the screenshots. */
+html, body { height: 900px; }
+body { overflow: hidden; }
+.chat-composer__input { resize: none; }
+
+/* --- Static stand-ins for the app's channel column and user panel ------------------------- */
+.mock-section { padding: var(--space-3) var(--space-3) var(--space-1); }
+.mock-section .server-section__title { display: flex; gap: var(--space-2); align-items: center; margin: 0; font-size: var(--font-size-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-secondary); }
+.mock-section .server-section__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--color-success); }
+.mock-tree, .mock-people { margin: 0; padding: 0 var(--space-2); list-style: none; }
+.mock-people { padding: 0 0 var(--space-1) var(--space-5); }
+.mock-tree { flex: 1; }
+.mock-channel .tree-channel__row { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-text-secondary); }
+.mock-channel .tree-channel__row[data-here] { background: var(--color-bg-selected); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.mock-hash { display: inline-block; width: 16px; text-align: center; color: var(--color-text-muted); }
+.mock-person .tree-person__row { display: flex; gap: var(--space-2); align-items: center; padding: 0.1875rem var(--space-2); font-size: var(--font-size-sm); color: var(--color-text); }
+.mock-person .tree-person__you { color: var(--color-text-muted); }
+.mock-userpanel { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); }
+.mock-muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.mock-server { display: grid; place-items: center; width: 3rem; height: 3rem; margin: 0 auto var(--space-2); border: 0; border-radius: var(--radius-lg); background: var(--color-bg-elevated); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.server-bar__server.mock-server--active { background: var(--gradient-accent); color: var(--color-on-accent); box-shadow: var(--shadow-glow); color: var(--color-on-accent) !important; }
+.server-bar__list { margin: 0; padding: 0; list-style: none; }
+.chat-list-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.chat-list__items { margin: 0; padding: var(--space-4) 0; list-style: none; }
+.chat-message p { margin: 0; }
+
+/* Highlights the one new composer button: the paperclip. */
+.mock-new { color: var(--color-accent-text); }
+
+/* --- File card: an audio card with status line, progress and actions --------------------- */
+.file-card { margin-top: var(--space-1); max-width: 30rem; }
+.file-card .audio-card__icon { color: var(--color-accent-text); }
+.file-card[data-state="risky"] .audio-card__icon { color: var(--color-warning); }
+.file-card[data-state="gone"] { border-left-color: var(--color-border-strong); }
+.file-card[data-state="gone"] .audio-card__name,
+.file-card[data-state="gone"] .audio-card__icon { color: var(--color-text-muted); }
+.file-card[data-state="done"] { border-left-color: var(--color-success); }
+.file-card__status { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.file-card__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--color-text-muted); }
+.file-card__dot[data-online] { background: var(--color-success); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 25%, transparent); }
+.file-card__ok { display: inline-flex; gap: var(--space-1); align-items: center; color: var(--color-success); font-weight: var(--font-weight-bold); }
+.file-card__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.file-card__button { display: inline-flex; gap: var(--space-2); align-items: center; }
+.file-card__button:disabled { opacity: 0.45; box-shadow: none; cursor: not-allowed; }
+.file-card__button--danger { border-color: var(--color-danger); color: var(--color-danger); }
+.file-card__peers { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-bg-chat); font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.file-card__peers p { display: flex; gap: var(--space-2); align-items: center; }
+
+/* --- File chip in the attachment tray: the icon takes the image thumbnail's place ---------- */
+.file-chip { padding-right: 2rem; }
+.file-chip__icon { display: grid; flex: none; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: var(--radius-sm); background: var(--color-bg-elevated); color: var(--color-accent-text); }
+
+/* --- Drop overlay over the whole chat ---------------------------------------------------- */
+.file-drop { position: absolute; inset: 3.5rem var(--space-4) var(--space-4); z-index: 10; display: grid; place-items: center; border: 2px dashed var(--color-accent); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-bg-chat) 82%, transparent); backdrop-filter: blur(2px); }
+.file-drop__box { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); max-width: 26rem; text-align: center; }
+.file-drop__icon { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--gradient-accent); color: var(--color-on-accent); box-shadow: var(--shadow-glow); color: var(--color-on-accent) !important; }
+.file-drop__title { margin: var(--space-2) 0 0; font-family: var(--font-family-display); font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); }
+.file-drop__hint { margin: 0; color: var(--color-text-secondary); }
+
+/* --- Risky file dialog: the app dialog, shown open for the screenshot -------------------- */
+.mock-backdrop { position: fixed; inset: 0; z-index: 20; background: var(--color-backdrop); }
+.mock-dialog { position: fixed; inset: 0; z-index: 21; margin: auto; height: fit-content; width: min(28rem, calc(100vw - 2rem)); }
+.mock-dialog p { margin: 0 0 var(--space-3); }
+.risky__head { display: flex; gap: var(--space-3); align-items: center; margin-bottom: var(--space-3); }
+.risky__head .app-dialog__title { margin: 0; }
+.risky__icon { display: grid; flex: none; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: color-mix(in srgb, var(--color-warning) 18%, transparent); color: var(--color-warning); }
+.risky__file { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-bg-elevated); }
+.risky__note { margin-bottom: 0 !important; }
+
+/* --- Settings: marks the new group --------------------------------------------------------- */
+.mock-new-group { box-shadow: 0 0 0 2px var(--color-accent); }
+.mock-new-badge { margin-left: var(--space-2); padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--gradient-accent); color: var(--color-on-accent); font-size: var(--font-size-xs); vertical-align: middle; }
+.mock-folder { display: flex; gap: var(--space-2); }
+.mock-folder .settings-input { flex: 1; }
+.mock-relay-note { display: flex; gap: var(--space-2); align-items: flex-start; }
+.mock-relay-note svg { flex: none; margin-top: 0.125rem; color: var(--color-accent-text); }
+
+/* --- What a standard Mumble client shows: plain text, no Mumcord styling ------------------- */
+.plain-body { display: grid; place-items: center; height: 100vh; background: #e9e9e9; color: #111; }
+:root[data-theme="dark"] .plain-body { background: #2b2b2b; color: #e6e6e6; }
+.plain-log { width: 52rem; padding: 1rem 1.25rem; border: 1px solid #9a9a9a; background: #ffffff; font-family: "Segoe UI", "Noto Sans", Arial, sans-serif; font-size: 0.875rem; }
+:root[data-theme="dark"] .plain-log { border-color: #555; background: #1e1e1e; }
+.plain-log p { margin: 0.25rem 0; }
+.plain-log__caption { margin-bottom: 0.75rem !important; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+:root[data-theme="dark"] .plain-log__caption { color: #999; }
+.plain-log__time { color: #777; }
+.plain-log__line { padding: 0.25rem 0.375rem; outline: 2px dashed #c21f62; outline-offset: 2px; }

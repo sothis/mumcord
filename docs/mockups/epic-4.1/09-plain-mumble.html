@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard Mumble client – Epic 4.1 mockup</title>
+<!-- Same fonts the app bundles via @fontsource (not installed for static mockups). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Sans:wght@400..700&display=swap">
+<link rel="stylesheet" href="../../../ui/src/theme/global.css">
+<link rel="stylesheet" href="../../../ui/src/app/shell.css">
+<link rel="stylesheet" href="../../../ui/src/features/app/app.css">
+<link rel="stylesheet" href="../../../ui/src/features/servers/servers.css">
+<link rel="stylesheet" href="../../../ui/src/features/channels/channels.css">
+<link rel="stylesheet" href="../../../ui/src/features/members/members.css">
+<link rel="stylesheet" href="../../../ui/src/features/chat/chat.css">
+<link rel="stylesheet" href="../../../ui/src/features/chat/mediaCards.css">
+<link rel="stylesheet" href="../../../ui/src/features/plugins/prompt/progress.css">
+<link rel="stylesheet" href="../../../ui/src/features/settings/settings.css">
+<link rel="stylesheet" href="mock.css">
+<!-- ?theme=light switches to the light theme, like the app's data-theme on <html>. -->
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get("theme") || "dark";</script>
+</head>
+<body class="plain-body">
+<div class="plain-log" role="log" aria-label="Chat log of a standard Mumble client">
+  <p class="plain-log__caption">Standard Mumble client, chat log (illustration)</p>
+  <p><span class="plain-log__time">[20:02]</span> <b>Carol</b>: Does anyone still have the slides from Thursday?</p>
+  <p><span class="plain-log__time">[20:03]</span> <b>Alice</b>: Yes, sharing them right now 👇</p>
+  <p class="plain-log__line"><span class="plain-log__time">[20:04]</span> <b>Alice</b>: 📎 Alice shared a file: game-night-slides.pdf (18.4 MB). You need Mumcord to download it: <u>https://mumcord.app</u></p>
+  <p><span class="plain-log__time">[20:06]</span> <b>Bob</b>: Got them, thanks!</p>
+</div>
+</body>
+</html>
