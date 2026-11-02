@@ -139,5 +139,3 @@ body { overflow: hidden; }
 .malware-alert__body { flex: 1; min-width: 0; }
 .malware-alert__source { margin-bottom: var(--space-1) !important; color: var(--color-text-muted); }
 /* Heuristic-only finding on a media file: informational, so no alert role, no blocking, no confirmation. */
-.malware-note { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3); border: 1px solid color-mix(in srgb, var(--color-warning) 45%, transparent); border-radius: var(--radius-sm); font-size: var(--font-size-sm); }
-.malware-note__title { margin-bottom: var(--space-1) !important; font-weight: var(--font-weight-bold); }
