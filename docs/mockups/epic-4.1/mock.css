@@ -103,3 +103,10 @@ body { overflow: hidden; }
 .mock-switch-default { display: block; margin-top: var(--space-1); }
 /* The dark theme's danger red is light, so white text on it would be hard to read. */
 :root[data-theme="dark"] .file-card__button--delete, :root[data-theme="dark"] .malware-alert__icon { color: #2a0a14; }
+
+/* Checksum line on file cards: short monospace form, full value for hover, focus and screen readers. */
+.file-card__hash { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); font-size: var(--font-size-sm); color: var(--color-text-muted, inherit); }
+.file-card__hash-value { font-family: ui-monospace, "JetBrains Mono", monospace; word-break: break-all; border-radius: var(--radius-sm); }
+.file-card__hash-value:focus-visible, .file-card__copy:focus-visible { outline: 2px solid var(--color-accent, currentColor); outline-offset: 2px; }
+.file-card__copy { display: inline-flex; align-items: center; gap: var(--space-1); padding-block: 2px; }
+.mock-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
