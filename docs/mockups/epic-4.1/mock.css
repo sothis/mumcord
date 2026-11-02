@@ -90,3 +90,16 @@ body { overflow: hidden; }
 :root[data-theme="dark"] .plain-log__caption { color: #999; }
 .plain-log__time { color: #777; }
 .plain-log__line { padding: 0.25rem 0.375rem; outline: 2px dashed #c21f62; outline-offset: 2px; }
+
+/* --- Optional malware hash check: result lines and the known-malware alert ----------------- */
+.file-card__scan svg { flex: none; color: var(--color-accent-text); }
+.file-card__scan--neutral svg { color: var(--color-text-muted); }
+.file-card[data-state="malware"] { border-left-color: var(--color-danger); }
+.file-card[data-state="malware"] .audio-card__icon { color: var(--color-danger); }
+.malware-alert { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3); border: 1px solid var(--color-danger); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-danger) 14%, transparent); font-size: var(--font-size-sm); }
+.malware-alert__icon { display: grid; flex: none; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--color-danger); color: #fff; }
+.malware-alert__title { margin-bottom: var(--space-1) !important; color: var(--color-danger); font-size: var(--font-size-md, 1rem); font-weight: var(--font-weight-bold); }
+.file-card__button--delete { background: var(--color-danger); border-color: var(--color-danger); color: #fff; }
+.mock-switch-default { display: block; margin-top: var(--space-1); }
+/* The dark theme's danger red is light, so white text on it would be hard to read. */
+:root[data-theme="dark"] .file-card__button--delete, :root[data-theme="dark"] .malware-alert__icon { color: #2a0a14; }
