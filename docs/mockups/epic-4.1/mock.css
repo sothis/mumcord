@@ -101,7 +101,6 @@ body { overflow: hidden; }
 .malware-alert__icon { display: grid; flex: none; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--color-danger); color: #fff; }
 .malware-alert__title { margin-bottom: var(--space-1) !important; color: var(--color-danger); font-size: var(--font-size-md, 1rem); font-weight: var(--font-weight-bold); }
 /* Verdict details: score, the top signals (plain text from the server, never HTML) and a link to the provider's report. */
-.malware-alert__score { margin-bottom: var(--space-1) !important; font-weight: var(--font-weight-bold); }
 .malware-alert__signals { margin: 0 0 var(--space-2); padding-left: var(--space-4); color: var(--color-text-muted); }
 .malware-alert__signals li { margin: 0; }
 .malware-alert__details { display: inline-flex; margin-top: var(--space-1); gap: var(--space-1); align-items: center; color: var(--color-accent-text); font-weight: var(--font-weight-bold); text-decoration: underline; }
@@ -123,3 +122,22 @@ body { overflow: hidden; }
 .file-card__copy { display: inline-flex; align-items: center; gap: var(--space-1); padding-block: 2px; }
 .mock-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 :root[data-theme="dark"] .malware-alert--suspicious .malware-alert__icon { color: #2a1a00; }
+
+/* Malware score ring: the arc fills to the score (0–100) in the verdict's colour; grey with "–" when there is no score. */
+.score-ring { --ring: var(--color-text-muted); --size: 2.75rem; position: relative; display: inline-grid; flex: none; place-items: center; width: var(--size); height: var(--size); color: var(--color-text); line-height: 1; text-align: center; }
+.score-ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--ring) calc(var(--score, 0) * 1%), color-mix(in srgb, var(--ring) 22%, transparent) 0); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3.5px)); }
+.score-ring__value { font-size: 0.8125rem; font-weight: var(--font-weight-bold); }
+.score-ring__max { display: block; margin-top: 1px; font-size: 0.5625rem; color: var(--color-text-muted); }
+.score-ring--sm { --size: 2.25rem; }
+.score-ring--sm .score-ring__value { font-size: 0.6875rem; }
+.score-ring--sm .score-ring__max { font-size: 0.5rem; }
+.score-ring[data-level="malicious"] { --ring: var(--color-danger); }
+.score-ring[data-level="suspicious"] { --ring: var(--color-warning); }
+.score-ring[data-level="clean"] { --ring: var(--color-success); }
+.score-ring[data-level="unknown"]::before { background: color-mix(in srgb, var(--ring) 45%, transparent); }
+.file-card__scan:has(.score-ring) { align-items: center; }
+.malware-alert__body { flex: 1; min-width: 0; }
+.malware-alert__source { margin-bottom: var(--space-1) !important; color: var(--color-text-muted); }
+/* Heuristic-only finding on a media file: informational, so no alert role, no blocking, no confirmation. */
+.malware-note { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3); border: 1px solid color-mix(in srgb, var(--color-warning) 45%, transparent); border-radius: var(--radius-sm); font-size: var(--font-size-sm); }
+.malware-note__title { margin-bottom: var(--space-1) !important; font-weight: var(--font-weight-bold); }
