@@ -92,13 +92,25 @@ body { overflow: hidden; }
 .plain-log__line { padding: 0.25rem 0.375rem; outline: 2px dashed #c21f62; outline-offset: 2px; }
 
 /* --- Optional malware hash check: result lines and the known-malware alert ----------------- */
-.file-card__scan svg { flex: none; color: var(--color-accent-text); }
+.file-card__scan { flex-wrap: nowrap; align-items: flex-start; }
+.file-card__scan svg { flex: none; margin-top: 0.2em; color: var(--color-accent-text); }
 .file-card__scan--neutral svg { color: var(--color-text-muted); }
 .file-card[data-state="malware"] { border-left-color: var(--color-danger); }
 .file-card[data-state="malware"] .audio-card__icon { color: var(--color-danger); }
 .malware-alert { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3); border: 1px solid var(--color-danger); border-radius: var(--radius-sm); background: color-mix(in srgb, var(--color-danger) 14%, transparent); font-size: var(--font-size-sm); }
 .malware-alert__icon { display: grid; flex: none; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--color-danger); color: #fff; }
 .malware-alert__title { margin-bottom: var(--space-1) !important; color: var(--color-danger); font-size: var(--font-size-md, 1rem); font-weight: var(--font-weight-bold); }
+/* Verdict details: score, the top signals (plain text from the server, never HTML) and a link to the provider's report. */
+.malware-alert__score { margin-bottom: var(--space-1) !important; font-weight: var(--font-weight-bold); }
+.malware-alert__signals { margin: 0 0 var(--space-2); padding-left: var(--space-4); color: var(--color-text-muted); }
+.malware-alert__signals li { margin: 0; }
+.malware-alert__details { display: inline-flex; margin-top: var(--space-1); gap: var(--space-1); align-items: center; color: var(--color-accent-text); font-weight: var(--font-weight-bold); text-decoration: underline; }
+.file-card[data-state="suspicious"] { border-left-color: var(--color-warning); }
+.file-card[data-state="suspicious"] .audio-card__icon { color: var(--color-warning); }
+.malware-alert--suspicious { border-color: var(--color-warning); background: color-mix(in srgb, var(--color-warning) 14%, transparent); }
+.malware-alert--suspicious .malware-alert__icon { background: var(--color-warning); color: #fff; }
+.malware-alert--suspicious .malware-alert__title { color: var(--color-warning); }
+.file-card__button--warning { border-color: var(--color-warning); color: var(--color-warning); }
 .file-card__button--delete { background: var(--color-danger); border-color: var(--color-danger); color: #fff; }
 .mock-switch-default { display: block; margin-top: var(--space-1); }
 /* The dark theme's danger red is light, so white text on it would be hard to read. */
@@ -110,3 +122,4 @@ body { overflow: hidden; }
 .file-card__hash-value:focus-visible, .file-card__copy:focus-visible { outline: 2px solid var(--color-accent, currentColor); outline-offset: 2px; }
 .file-card__copy { display: inline-flex; align-items: center; gap: var(--space-1); padding-block: 2px; }
 .mock-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+:root[data-theme="dark"] .malware-alert--suspicious .malware-alert__icon { color: #2a1a00; }
