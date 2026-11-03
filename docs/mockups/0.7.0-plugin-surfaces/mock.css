@@ -1,0 +1,153 @@
+/*
+ * Mockup-only styles for the 0.7.0 plugin surfaces (media area, own web content, external
+ * websites, Apps menu, relay plugin data). Everything else comes from the app's real CSS
+ * (settings, plugin prompt, permission rows, installed list, media panel tabs, menus) and from
+ * shell.css / room.css (static shell and media-area stand-ins copied from the Epic 4.1 mockups).
+ * New pieces are built from the same tokens. Plugins, people, servers and websites are invented;
+ * every website uses the reserved .example domain.
+ */
+
+html, body { height: 100vh; }
+
+/* --- Host-drawn chrome around plugin content (never inside the sealed frame) ------------- */
+.ps-chip { display: inline-flex; gap: 4px; align-items: center; padding: 1px var(--space-2); border-radius: var(--radius-full); border: 1px solid var(--color-border-strong); color: var(--color-text-secondary); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); white-space: nowrap; }
+.ps-chip--unofficial { border-style: dashed; color: var(--color-warning); border-color: color-mix(in srgb, var(--color-warning) 60%, transparent); }
+.ps-chip--plugin { color: var(--color-accent-text); border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); }
+.ps-chip--ok { color: var(--color-success); border-color: color-mix(in srgb, var(--color-success) 60%, transparent); }
+.ps-chip--warn { color: var(--color-warning); border-color: color-mix(in srgb, var(--color-warning) 60%, transparent); }
+.ps-icon { display: inline-grid; flex: none; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: var(--radius-md); color: #fff; font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); }
+.ps-icon--brawl { background: linear-gradient(135deg, #e0524d, #e2a72e); }
+.ps-icon--sketch { background: linear-gradient(135deg, #2f9e6a, #3f7fe0); }
+.ps-icon--dice { background: linear-gradient(135deg, #7a4de0, #c04de0); }
+.ps-icon--sm { width: 1.25rem; height: 1.25rem; font-size: 0.6875rem; border-radius: var(--radius-sm); }
+
+/* Media chrome chips stay readable on the dark media background in both themes. */
+.cam-room .ps-chip { border-color: var(--media-glass-border); color: var(--media-on-scrim-muted); background: var(--media-glass); }
+.cam-room .ps-chip--unofficial { color: #ffcf70; border-color: rgb(255 207 112 / 55%); }
+.cam-room .ps-chip--plugin { color: #c9b6ff; border-color: rgb(201 182 255 / 55%); }
+.cam-room .ps-chip--ok { color: #3ee39e; border-color: #3ee39e; }
+.cam-room .ps-chip--warn { color: #ffcf70; border-color: rgb(255 207 112 / 70%); }
+
+/* --- Stage switcher in the media area (reuses .media-panel__tabs from media.css) --------- */
+.ps-stage-tabs { margin: 0; }
+.cam-room .media-panel__tabs { background: var(--media-glass); }
+.cam-room .media-panel__tab { color: var(--media-on-scrim-muted); flex: 0 1 auto; }
+.cam-room .media-panel__tab[aria-selected="true"] { background: rgb(255 255 255 / 14%); color: #fff; box-shadow: inset 0 0 0 1px var(--media-glass-border); }
+.ps-tab-dot { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: #ff5c61; }
+.ps-stage-row { display: flex; gap: var(--space-3); align-items: center; }
+.ps-stage-row .ps-hint { margin-left: auto; color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); }
+
+/* --- Sealed frame: the plugin's own web content ------------------------------------------ */
+.ps-frame { position: relative; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--media-glass-border); background: #0d1117; }
+.ps-frame__tag { position: absolute; left: var(--space-2); bottom: var(--space-2); z-index: 3; display: inline-flex; gap: 4px; align-items: center; padding: 1px var(--space-2); border-radius: var(--radius-full); background: rgb(0 0 0 / 0.62); color: #e9e4ff; font-size: 0.6875rem; }
+.ps-banner { display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); border: 1px solid rgb(255 207 112 / 55%); background: rgb(255 207 112 / 10%); color: #ffe2a3; font-size: var(--font-size-sm); }
+.ps-banner strong { color: #fff; }
+.ps-banner__icon { flex: none; }
+.ps-banner .cam-btn { margin-left: auto; height: 1.75rem; }
+
+/* Invented game "Board Brawl": a page drawn by the plugin itself. */
+.bb { display: grid; grid-template-columns: 1fr 15rem; height: 100%; color: #f4efe6; font-family: "Trebuchet MS", system-ui, sans-serif; background: radial-gradient(circle at 30% 20%, #2b1d14, #120c08 70%); }
+.bb__board { display: grid; place-items: center; padding: var(--space-3); }
+.bb__grid { display: grid; grid-template-columns: repeat(8, var(--cell, 2.35rem)); grid-template-rows: repeat(8, var(--cell, 2.35rem)); border: 6px solid #6b4426; border-radius: 6px; box-shadow: 0 10px 30px rgb(0 0 0 / 55%); }
+.bb__cell { display: grid; place-items: center; font-size: 1.35rem; }
+.bb__cell--l { background: #e7c99a; }
+.bb__cell--d { background: #a8713f; }
+.bb__cell--hl { box-shadow: inset 0 0 0 3px #7df3c8; }
+.bb__piece { width: 1.6rem; height: 1.6rem; border-radius: 50%; box-shadow: inset 0 -3px 0 rgb(0 0 0 / 35%), 0 2px 3px rgb(0 0 0 / 45%); }
+.bb__piece--r { background: radial-gradient(circle at 35% 30%, #ff8a7a, #c0352c); }
+.bb__piece--b { background: radial-gradient(circle at 35% 30%, #8fb8ff, #2a56b8); }
+.bb__piece--k { outline: 2px solid #ffd76a; outline-offset: -5px; }
+.bb__side { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); background: rgb(0 0 0 / 28%); font-size: 0.8125rem; }
+.bb__title { margin: 0; font-size: 1.05rem; letter-spacing: 0.04em; text-transform: uppercase; color: #ffd76a; }
+.bb__player { display: flex; gap: var(--space-2); align-items: center; padding: 4px 6px; border-radius: 6px; background: rgb(255 255 255 / 6%); }
+.bb__player--turn { background: rgb(125 243 200 / 16%); box-shadow: inset 0 0 0 1px #7df3c8; }
+.bb__swatch { width: 0.8rem; height: 0.8rem; border-radius: 50%; }
+.bb__log { margin: 0; padding: 0; list-style: none; color: #cdbfa8; display: flex; flex-direction: column; gap: 2px; }
+.bb__btn { margin-top: auto; padding: 6px 10px; border: 0; border-radius: 6px; background: #ffd76a; color: #2b1d14; font: inherit; font-weight: 700; }
+
+/* Invented whiteboard "Sketchboard". */
+.sk { display: flex; flex-direction: column; height: 100%; background: #fbfaf6; color: #23201a; font-family: system-ui, sans-serif; }
+.sk__tools { display: flex; gap: 4px; padding: 6px; border-bottom: 1px solid #e4e0d4; background: #f2efe6; }
+.sk__tool { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 1px solid #d8d3c4; border-radius: 6px; background: #fff; font-size: 0.85rem; }
+.sk__tool--on { background: #23201a; color: #fff; }
+.sk__swatch { width: 1.1rem; height: 1.1rem; border-radius: 50%; align-self: center; margin-left: 4px; }
+.sk__canvas { position: relative; flex: 1; background-image: radial-gradient(#d9d4c6 1px, transparent 1px); background-size: 16px 16px; }
+.sk__canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sk__cursor { position: absolute; display: inline-flex; gap: 3px; align-items: center; padding: 1px 6px; border-radius: 4px; color: #fff; font-size: 0.7rem; }
+
+/* --- Side panel: a docked column on the right of the chat --------------------------------- */
+.ps-side { display: flex; flex-direction: column; gap: var(--space-2); height: 100%; padding: var(--space-3); border-left: 1px solid var(--color-border); background: var(--color-bg-sidebar); }
+.ps-side__head { display: flex; gap: var(--space-2); align-items: center; }
+.ps-side__name { font-weight: var(--font-weight-bold); }
+.ps-side__tools { display: flex; gap: 2px; margin-left: auto; }
+.ps-iconbtn { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 0; border-radius: var(--radius-md); background: transparent; color: var(--color-text-secondary); }
+.ps-iconbtn:hover { background: var(--color-bg-hover); }
+.ps-side .ps-frame { flex: 1; border-color: var(--color-border-strong); background: #fbfaf6; }
+.ps-side__foot { margin: 0; color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-resize { position: absolute; top: 0; bottom: 0; left: -3px; width: 6px; cursor: col-resize; }
+
+/* --- Plugin dialog with web content -------------------------------------------------------- */
+.ps-dialog { width: min(46rem, calc(100vw - 2 * var(--space-4))); max-width: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.ps-dialog .ps-frame { height: 26rem; border-color: var(--color-border-strong); }
+.ps-dialog__head { display: flex; gap: var(--space-2); align-items: center; }
+.ps-dialog__head h3 { margin: 0; }
+.ps-dialog__head .ps-iconbtn { margin-left: auto; }
+.bbl { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); height: 100%; padding: var(--space-4); background: radial-gradient(circle at 70% 10%, #3a2618, #120c08 75%); color: #f4efe6; font-family: "Trebuchet MS", system-ui, sans-serif; font-size: 0.875rem; }
+.bbl h4 { margin: 0 0 6px; color: #ffd76a; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.85rem; }
+.bbl ol, .bbl ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 4px; color: #e3d6c0; }
+.bbl__card { padding: var(--space-3); border-radius: 8px; background: rgb(0 0 0 / 30%); box-shadow: inset 0 0 0 1px rgb(255 215 106 / 18%); }
+.bbl__modes { display: flex; flex-direction: column; gap: 6px; }
+.bbl__mode { display: flex; justify-content: space-between; padding: 6px 8px; border-radius: 6px; background: rgb(255 255 255 / 6%); }
+.bbl__mode--on { background: rgb(255 215 106 / 18%); box-shadow: inset 0 0 0 1px #ffd76a; }
+.bbl__go { margin-top: var(--space-2); padding: 8px; border: 0; border-radius: 6px; background: #ffd76a; color: #2b1d14; font: inherit; font-weight: 700; width: 100%; }
+
+/* --- Install prompt and details: websites list -------------------------------------------- */
+.plugin-prompt { max-height: none; }
+.ps-prompt { width: min(36rem, calc(100vw - 2 * var(--space-4))); max-width: none; }
+.ps-prompt .perm-rows { gap: 0; }
+.ps-origins { display: flex; flex-direction: column; gap: 2px; margin: 6px 0 2px; padding: 0; list-style: none; }
+.ps-origin { display: flex; gap: var(--space-2); align-items: baseline; font-size: var(--font-size-sm); }
+.ps-origin code { padding: 0 4px; border-radius: var(--radius-sm); background: var(--color-bg-hover); color: var(--color-text); font-size: var(--font-size-sm); }
+.ps-origin span { color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-origin--new code { background: color-mix(in srgb, var(--color-danger) 18%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-danger) 60%, transparent); }
+.ps-origin--gone code { text-decoration: line-through; color: var(--color-text-muted); }
+.ps-new { color: var(--color-danger); font-weight: var(--font-weight-bold); font-size: var(--font-size-xs); }
+.ps-warn-box { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); border-radius: var(--radius-md); border: 1px solid color-mix(in srgb, var(--color-warning) 55%, transparent); background: color-mix(in srgb, var(--color-warning) 10%, transparent); }
+.ps-warn-box--danger { border-color: color-mix(in srgb, var(--color-danger) 60%, transparent); background: color-mix(in srgb, var(--color-danger) 10%, transparent); }
+.ps-warn-box p { margin: 0; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.ps-warn-box strong { color: var(--color-text); }
+.ps-check { display: flex; gap: var(--space-2); align-items: center; font-size: var(--font-size-sm); color: var(--color-text); }
+.ps-check input { accent-color: var(--color-accent); width: 1rem; height: 1rem; }
+.ps-section-label { margin: var(--space-2) 0 0; color: var(--color-text-muted); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; }
+.ps-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px var(--space-4); margin: 0; font-size: var(--font-size-sm); }
+.ps-facts dt { color: var(--color-text-muted); }
+.ps-facts dd { margin: 0; }
+.ps-places { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+
+/* --- Apps menu with plugin items ---------------------------------------------------------- */
+.ps-menu-anchor { position: absolute; left: 22rem; bottom: 4.25rem; z-index: 20; }
+.ps-menu { position: static; min-width: 21rem; }
+.ps-menu__group { margin: var(--space-1) var(--space-2) 2px; color: var(--color-text-muted); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); letter-spacing: 0.06em; text-transform: uppercase; }
+.ps-menu .server-menu__item.chat-apps__item { display: flex; flex-direction: row; gap: var(--space-2); align-items: center; justify-content: flex-start; text-align: left; width: 100%; }
+.ps-menu__text { display: flex; flex-direction: column; line-height: 1.25; }
+.ps-menu__sub { color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-menu__key { margin-left: auto; color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-menu__builtin { display: grid; place-items: center; width: 1.25rem; color: var(--color-text-secondary); }
+.ps-menu .server-menu__item[aria-disabled="true"] { opacity: 0.6; }
+.ps-menu__foot { margin: 2px var(--space-2) var(--space-1); color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-focus { box-shadow: 0 0 0 2px var(--color-focus); border-radius: var(--radius-sm); }
+
+/* --- Settings: relay data card ------------------------------------------------------------ */
+.ps-servers { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: var(--font-size-sm); }
+.ps-servers li { display: flex; gap: var(--space-2); align-items: center; }
+.ps-servers .ps-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; }
+.ps-usage { margin-left: auto; color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-plugrow { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-2) 0; border-top: 1px solid var(--color-border); }
+.ps-plugrow:first-child { border-top: 0; }
+.ps-plugrow__text { display: flex; flex-direction: column; }
+.ps-plugrow__text small { color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.ps-plugrow .settings-switch__input { margin-left: auto; }
+
+/* --- Chat activity line -------------------------------------------------------------------- */
+.ps-activity { display: flex; gap: var(--space-2); align-items: center; margin: var(--space-2) var(--space-4); padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-elevated); font-size: var(--font-size-sm); }
+.ps-activity .settings-button { margin-left: auto; }
