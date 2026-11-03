@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Standard Mumble client fallback – Whiteboard (0.7.0) mockup</title>
+<!-- Same fonts the app bundles via @fontsource (not installed for static mockups); Caveat is bundled in the plugin's web/ folder. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Instrument+Sans:wght@400..700&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="../../../ui/src/theme/global.css">
+<link rel="stylesheet" href="../../../ui/src/app/shell.css">
+<link rel="stylesheet" href="../../../ui/src/features/app/app.css">
+<link rel="stylesheet" href="../../../ui/src/features/servers/servers.css">
+<link rel="stylesheet" href="../../../ui/src/features/channels/channels.css">
+<link rel="stylesheet" href="../../../ui/src/features/members/members.css">
+<link rel="stylesheet" href="../../../ui/src/features/chat/chat.css">
+<link rel="stylesheet" href="../../../ui/src/features/chat/chatActionRow.css">
+<link rel="stylesheet" href="../../../ui/src/features/chat/mediaCards.css">
+<link rel="stylesheet" href="../../../ui/src/features/media/media.css">
+<link rel="stylesheet" href="mock.css">
+<link rel="stylesheet" href="whiteboard.css">
+<!-- ?theme=light switches to the light theme, like the app's data-theme on <html>. -->
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get("theme") || "dark";</script>
+</head>
+<body class="plain-body">
+<div class="plain-log" role="log" aria-label="Chat log of a standard Mumble client">
+  <p class="plain-log__caption">Standard Mumble client, chat log of Dave (illustration)</p>
+  <p class="plain-log__line"><span class="plain-log__time">[14:01]</span> <b>Maya</b>: [Whiteboard] Maya started a whiteboard in General. Draw together with Mumcord (Apps → Start whiteboard), or just listen in and talk along.</p>
+  <p><span class="plain-log__time">[14:02]</span> <b>Zoe</b>: the demo script is almost done</p>
+  <p><span class="plain-log__time">[14:03]</span> <b>Leo</b>: drawing a circle around QA, it is the scary one</p>
+  <p><span class="plain-log__time">[14:05]</span> <b>Dave</b>: can't see anything, but I get the plan from what you say</p>
+  <p class="plain-log__line"><span class="plain-log__time">[14:44]</span> <b>Maya</b>: [Whiteboard] "Launch week plan" · 5 people · 143 items. Ask Maya for a PNG or PDF of the board.</p>
+  <p class="plain-log__note">Both [Whiteboard] lines are sent only when the host clicks (starting the board, "Post summary to chat"), as plain text of at most 500 characters. They contain no link and no image: Mumcord has no server where a picture could live. Mumcord users with the plugin see the board and a card instead of these lines. The board itself travels as plugin data, which standard clients ignore.</p>
+</div>
+</body>
+</html>
