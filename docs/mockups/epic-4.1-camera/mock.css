@@ -1,0 +1,200 @@
+/*
+ * Mockup-only styles for Epic 4.1 camera sharing. Everything else comes from the app's real CSS.
+ * New parts (camera tiles, camera room, preview dialog, background picker, on-air button) are built
+ * from the same theme tokens and from the media frame, apps menu, user panel and settings cards
+ * they extend. Camera pictures are drawn as simple illustrations, never photos of real people.
+ */
+/* Google Fonts serves the bundled @fontsource fonts under their plain names. */
+:root { --font-family: "Instrument Sans", system-ui, sans-serif; --font-family-display: "Bricolage Grotesque", var(--font-family); }
+/* Fixed 1440×900 window for the screenshots. */
+html, body { height: 900px; }
+body { overflow: hidden; }
+.chat-composer__input { resize: none; }
+
+/* --- Static stand-ins for the app's channel column and user panel ------------------------- */
+.mock-section { padding: var(--space-3) var(--space-3) var(--space-1); }
+.mock-section .server-section__title { display: flex; gap: var(--space-2); align-items: center; margin: 0; font-size: var(--font-size-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-secondary); }
+.mock-section .server-section__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--color-success); }
+.mock-tree, .mock-people { margin: 0; padding: 0 var(--space-2); list-style: none; }
+.mock-people { padding: 0 0 var(--space-1) var(--space-5); }
+.mock-tree { flex: 1; }
+.mock-channel .tree-channel__row { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-text-secondary); }
+.mock-channel .tree-channel__row[data-here] { background: var(--color-bg-selected); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.mock-hash { display: inline-block; width: 16px; text-align: center; color: var(--color-text-muted); }
+.mock-person .tree-person__row { display: flex; gap: var(--space-2); align-items: center; padding: 0.1875rem var(--space-2); font-size: var(--font-size-sm); color: var(--color-text); }
+.mock-person .tree-person__you { color: var(--color-text-muted); }
+.mock-person[data-talking] .tree-person__name { color: var(--color-talking); font-weight: var(--font-weight-bold); }
+.mock-person[data-talking] .avatar { box-shadow: 0 0 0 2px var(--color-talking); }
+.mock-treecam { display: inline-flex; margin-left: auto; color: var(--color-text-muted); }
+.mock-treecam[data-self] { color: var(--color-danger); }
+.mock-userpanel { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); }
+.mock-userpanel__who { flex: 1; min-width: 0; }
+.mock-muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.mock-server { display: grid; place-items: center; width: 3rem; height: 3rem; margin: 0 auto var(--space-2); border: 0; border-radius: var(--radius-lg); background: var(--color-bg-elevated); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.server-bar__server.mock-server--active { background: var(--gradient-accent); color: var(--color-on-accent); box-shadow: var(--shadow-glow); color: var(--color-on-accent) !important; }
+.server-bar__list { margin: 0; padding: 0; list-style: none; }
+.chat-list-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+.chat-list__items { margin: 0; padding: var(--space-3) 0; list-style: none; }
+.chat-message p { margin: 0; }
+
+/* User panel buttons: microphone, headset and the new camera button. */
+.mock-upbtn { position: relative; display: grid; place-items: center; width: 2rem; height: 2rem; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--color-text-secondary); }
+.mock-upbtn[data-onair] { background: color-mix(in srgb, var(--color-danger) 20%, transparent); color: var(--color-danger); box-shadow: inset 0 0 0 1px var(--color-danger); }
+.mock-upbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.mock-tooltip { position: absolute; bottom: calc(100% + var(--space-2)); right: -0.5rem; z-index: 30; width: 15rem; padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-elevated); box-shadow: var(--shadow-raised); color: var(--color-text); font-size: var(--font-size-xs); text-align: left; white-space: normal; opacity: 1; }
+
+/* Marks what is new. */
+.mock-new-group { box-shadow: 0 0 0 2px var(--color-accent); }
+.mock-new-badge { margin-left: var(--space-2); padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--gradient-accent); color: var(--color-on-accent); font-size: var(--font-size-xs); vertical-align: middle; }
+.mock-new-outline { box-shadow: 0 0 0 2px var(--color-accent); }
+
+/* Apps menu shown open. */
+.chat-apps { position: relative; }
+.chat-apps__menu { position: absolute; z-index: 30; }
+.chat-apps__menu { width: 23rem; }
+.mock-appitem { display: flex; gap: var(--space-2); align-items: flex-start; }
+.mock-appitem > svg { flex: none; margin-top: 0.125rem; color: var(--color-accent-text); }
+.mock-appitem[aria-disabled="true"] { cursor: not-allowed; }
+.mock-appitem[aria-disabled="true"] > svg, .mock-appitem[aria-disabled="true"] .mock-appitem__label { opacity: 0.5; }
+.mock-appitem__label { font-weight: var(--font-weight-bold); }
+.mock-appitem__body { display: flex; flex-direction: column; gap: 0.125rem; }
+.mock-appitem__reason { display: flex; gap: var(--space-1); align-items: flex-start; color: var(--color-text-muted); font-size: 0.75rem; }
+.mock-appitem__reason svg { flex: none; margin-top: 0.1rem; }
+
+/* --- Camera pictures: drawn scene plus a person layer --------------------------------------- */
+.cam-video { position: absolute; inset: 0; overflow: hidden; background: #111; }
+.cam-video svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cam-video[data-mirror] svg { transform: scaleX(-1); }
+/* Blur keeps the room recognisable as a room but not its details, like Teams and Meet. */
+.cam-video[data-bg="blur"] .cam-scene { filter: blur(7px) saturate(0.9); transform: scale(1.12); }
+.cam-video[data-mirror][data-bg="blur"] .cam-scene { transform: scale(1.12) scaleX(-1); }
+.cam-video--big[data-bg="blur"] .cam-scene { filter: blur(14px) saturate(0.9); }
+
+/* --- Camera tile ------------------------------------------------------------------------------ */
+.cam-tile { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-md); background: #15112b; outline: 0 solid transparent; }
+.cam-tile[data-speaking] { box-shadow: 0 0 0 3px var(--color-talking), 0 0 18px color-mix(in srgb, var(--color-talking) 45%, transparent); }
+.cam-tile[data-focus] { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.cam-tile__name { position: absolute; left: var(--space-2); bottom: var(--space-2); z-index: 2; display: inline-flex; gap: var(--space-1); align-items: center; max-width: calc(100% - 1rem); padding: 2px var(--space-2); border-radius: var(--radius-full); background: var(--media-scrim); color: var(--media-on-scrim); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
+.cam-tile__name svg { flex: none; }
+.cam-tile__name [data-talk] { color: #3ee39e; }
+.cam-tile__name [data-off] { color: #ff8f8f; }
+.cam-tile__badges { position: absolute; top: var(--space-2); right: var(--space-2); z-index: 2; display: flex; gap: var(--space-1); }
+.cam-tile__badge { display: inline-flex; gap: 3px; align-items: center; padding: 1px var(--space-2); border-radius: var(--radius-full); background: var(--media-scrim); color: var(--media-on-scrim); font-size: 0.6875rem; font-weight: var(--font-weight-bold); }
+.cam-tile__badge[data-tone="warn"] { color: #ffd27a; }
+.cam-tile__badge[data-tone="live"] { background: #e5484d; color: #fff; }
+.cam-tile__more { position: absolute; top: var(--space-2); left: var(--space-2); z-index: 3; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border: 1px solid var(--media-glass-border); border-radius: var(--radius-full); background: var(--media-glass); color: var(--media-on-scrim); }
+.cam-tile__off { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: var(--space-2); background: #1b1636; color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); }
+.cam-tile__off .avatar { margin: 0 auto; }
+
+/* --- Camera room: a media frame with header, grid and control bar ---------------------------- */
+.mock-stage { padding: var(--space-3) var(--space-4) 0; }
+.cam-room {
+  --media-scrim: rgb(8 6 20 / 72%);
+  --media-on-scrim: #fff;
+  --media-on-scrim-muted: rgb(255 255 255 / 72%);
+  --media-glass: rgb(16 12 36 / 62%);
+  --media-glass-border: rgb(255 255 255 / 16%);
+  display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-lg); background: #0c0920; box-shadow: var(--shadow-raised); color: var(--media-on-scrim);
+}
+.cam-room__head { display: flex; gap: var(--space-3); align-items: center; }
+.cam-room__icon { display: grid; flex: none; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--gradient-accent); color: #fff; }
+.cam-room__titles { display: flex; flex-direction: column; }
+.cam-room__title { font-family: var(--font-family-display); font-weight: var(--font-weight-bold); }
+.cam-room__sub { color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); }
+.cam-room__chips { display: flex; gap: var(--space-1); margin-left: auto; align-items: center; }
+.cam-chip { display: inline-flex; gap: 4px; align-items: center; padding: 2px var(--space-2); border: 1px solid var(--media-glass-border); border-radius: var(--radius-full); background: var(--media-glass); color: var(--media-on-scrim); font: inherit; font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
+.cam-chip[data-tone="ok"] { border-color: #3ee39e; color: #3ee39e; }
+.cam-grid { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: var(--space-2); width: 100%; max-width: var(--grid-w, 100%); margin: 0 auto; }
+.cam-room__bar { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; justify-content: center; }
+.cam-btn { display: inline-flex; gap: var(--space-2); align-items: center; height: 2.25rem; padding: 0 var(--space-3); border: 1px solid var(--media-glass-border); border-radius: var(--radius-full); background: var(--media-glass); color: var(--media-on-scrim); font: inherit; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.cam-btn[aria-pressed="true"] { background: rgb(255 255 255 / 16%); }
+.cam-btn--onair { border-color: #e5484d; background: rgb(229 72 77 / 22%); }
+.cam-btn--onair .cam-dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #ff5c61; box-shadow: 0 0 0 3px rgb(255 92 97 / 30%); }
+.cam-btn--leave { border-color: #ff8f8f; color: #ff8f8f; }
+.cam-room__others { display: flex; gap: var(--space-2); align-items: center; justify-content: center; color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); }
+.cam-room__others .avatar { box-shadow: 0 0 0 2px #0c0920; }
+.cam-room__others span.mock-stack { display: inline-flex; }
+.cam-room__others span.mock-stack .avatar + .avatar { margin-left: -6px; }
+.cam-seg { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--media-glass-border); border-radius: var(--radius-full); background: var(--media-glass); }
+.cam-seg button { height: 1.75rem; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; color: var(--media-on-scrim-muted); font: inherit; font-size: var(--font-size-xs); }
+.cam-seg button[aria-pressed="true"] { background: #fff; color: #120d2b; font-weight: var(--font-weight-bold); }
+
+/* Camera room next to a screen share or watch party: the main picture plus a camera strip. */
+.cam-split { display: grid; gap: var(--space-2); }
+.cam-split--side { grid-template-columns: 1fr 13.5rem; }
+.cam-split--top { grid-template-rows: auto 1fr; }
+.cam-strip { display: flex; flex-direction: column; gap: var(--space-2); }
+.cam-strip--row { flex-direction: row; justify-content: center; }
+.cam-strip--row .cam-tile { width: 11rem; }
+.cam-main { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-md); background: #000; }
+.cam-main__label { position: absolute; left: var(--space-2); top: var(--space-2); z-index: 2; display: inline-flex; gap: var(--space-2); align-items: center; padding: 2px var(--space-2); border-radius: var(--radius-full); background: var(--media-scrim); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
+.mock-code { display: grid; grid-template-columns: 12% 1fr 30%; width: 100%; height: 100%; background: #1e1e2e; }
+.mock-code__side { background: #181825; }
+.mock-code__main, .mock-code__term { display: flex; flex-direction: column; gap: 7px; padding: 40px 20px 20px; }
+.mock-code__term { border-left: 1px solid #313244; background: #11111b; }
+.mock-code__line { display: block; width: var(--w); height: 6px; border-radius: 3px; background: var(--c); opacity: 0.85; }
+.mock-film { width: 100%; height: 100%; }
+.mock-film__bar { position: absolute; left: var(--space-3); right: var(--space-3); bottom: var(--space-3); display: flex; gap: var(--space-2); align-items: center; font-size: var(--font-size-xs); }
+.mock-film__track { flex: 1; height: 4px; border-radius: 2px; background: rgb(255 255 255 / 30%); }
+.mock-film__track span { display: block; width: 38%; height: 100%; border-radius: 2px; background: #fff; }
+
+/* Tile menu shown open (viewer controls). */
+.mock-anchor { position: relative; }
+.cam-menu { position: absolute; z-index: 20; display: flex; flex-direction: column; width: 17.5rem; padding: var(--space-2); border: 1px solid var(--media-glass-border); border-radius: var(--radius-lg); background: rgb(16 12 36 / 96%); box-shadow: var(--shadow-raised); color: var(--media-on-scrim); font-size: var(--font-size-sm); }
+.cam-menu__title { margin: var(--space-1) var(--space-2); color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: 0.04em; }
+.cam-menu__item { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-sm); background: transparent; color: inherit; font: inherit; text-align: left; }
+.cam-menu__item[data-focus] { background: rgb(255 255 255 / 14%); outline: 2px solid var(--color-focus); outline-offset: -2px; }
+.cam-menu__item kbd { margin-left: auto; padding: 0 var(--space-1); border: 1px solid var(--media-glass-border); border-radius: 4px; color: var(--media-on-scrim-muted); font: inherit; font-size: 0.6875rem; }
+.cam-menu__item[aria-checked="true"] { font-weight: var(--font-weight-bold); }
+.cam-menu__item[aria-checked="false"] { padding-left: 1.85rem; }
+.cam-menu__item span.cam-menu__hint { margin-left: auto; color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); font-weight: normal; }
+.cam-menu__sep { width: 100%; margin: var(--space-1) 0; border: 0; border-top: 1px solid var(--media-glass-border); }
+.cam-menu__foot { margin: var(--space-1) var(--space-2); color: var(--media-on-scrim-muted); font-size: var(--font-size-xs); }
+
+/* --- Preview dialog --------------------------------------------------------------------------- */
+.mock-backdrop { position: fixed; inset: 0; z-index: 20; background: var(--color-backdrop); }
+.mock-dialog { position: fixed; inset: 0; z-index: 21; margin: auto; height: fit-content; width: min(48rem, calc(100vw - 2rem)); }
+.mock-dialog p { margin: 0; }
+.cam-preview { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--space-4); }
+.cam-preview__picture { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-md); }
+.cam-preview__tag { position: absolute; top: var(--space-2); left: var(--space-2); z-index: 2; display: inline-flex; gap: var(--space-1); align-items: center; padding: 2px var(--space-2); border-radius: var(--radius-full); background: rgb(8 6 20 / 72%); color: #fff; font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); }
+.cam-preview__note { display: flex; gap: var(--space-2); align-items: flex-start; margin-top: var(--space-2) !important; color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.cam-preview__note svg { flex: none; margin-top: 0.15rem; color: var(--color-success); }
+.mock-field { display: flex; flex-direction: column; gap: var(--space-1); margin-bottom: var(--space-3); }
+.mock-field__label { font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-secondary); }
+.mock-field .settings-input { width: 100%; text-align: left; }
+.bg-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+.bg-mode { display: flex; flex-direction: column; gap: var(--space-1); align-items: center; padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg-chat); color: var(--color-text); font: inherit; font-size: var(--font-size-sm); }
+.bg-mode[aria-checked="true"] { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent); font-weight: var(--font-weight-bold); }
+.bg-mode svg { color: var(--color-accent-text); }
+.mock-seg { display: inline-flex; align-self: flex-start; gap: 2px; padding: 2px; border: 1px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-bg-chat); }
+.mock-seg__button { min-width: 4rem; height: 2rem; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-full); background: transparent; color: var(--color-text-secondary); font: inherit; font-size: var(--font-size-sm); }
+.mock-seg__button[aria-pressed="true"] { background: var(--gradient-accent); color: var(--color-on-accent); font-weight: var(--font-weight-bold); }
+.bg-images { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
+.bg-thumb { position: relative; aspect-ratio: 16 / 9; overflow: hidden; padding: 0; border: 2px solid transparent; border-radius: var(--radius-sm); background: var(--color-bg-chat); }
+.bg-thumb svg { width: 100%; height: 100%; display: block; }
+.bg-thumb[aria-checked="true"] { border-color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent); }
+.bg-thumb__check { position: absolute; right: 2px; bottom: 2px; display: grid; place-items: center; width: 1rem; height: 1rem; border-radius: 50%; background: var(--color-accent); color: var(--color-on-accent); }
+.bg-thumb--add { display: grid; place-items: center; border: 1px dashed var(--color-border-strong); color: var(--color-text-secondary); font-size: var(--font-size-xs); }
+.bg-thumb--add span { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.bg-thumb__own { position: absolute; left: 2px; top: 2px; padding: 0 4px; border-radius: 4px; background: rgb(8 6 20 / 72%); color: #fff; font-size: 0.5625rem; }
+.mock-hint { margin-top: var(--space-1) !important; color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.mock-load { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-bg-chat); color: var(--color-text-secondary); font-size: var(--font-size-xs); }
+.mock-load svg { flex: none; color: var(--color-accent-text); }
+.app-dialog__actions { margin-top: var(--space-4); }
+
+/* --- Settings ---------------------------------------------------------------------------- */
+.mock-cards { padding-bottom: var(--space-4); }
+.mock-infoline { display: flex; gap: var(--space-2); align-items: flex-start; margin: var(--space-2) 0; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-bg-chat); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.mock-infoline svg { flex: none; margin-top: 0.15rem; color: var(--color-accent-text); }
+.mock-setprev { display: flex; gap: var(--space-3); align-items: center; margin: var(--space-2) 0; }
+.mock-setprev .cam-tile { width: 13rem; }
+.settings-radios__row { flex-wrap: wrap; }
+.settings-radios__row .settings-hint { flex-basis: 100%; margin: 0 0 var(--space-1) 1.6rem; }
+
+/* Reduced motion: the on-air dot and the speaking ring stay static (the app's global rule also
+   shortens animations); tiles never move because someone speaks. */
+@media (prefers-reduced-motion: reduce) { .cam-tile { transition: none; } }
+.cam-room { position: relative; }
+.mock-userpanel__who .mock-muted { white-space: nowrap; }
+.bg-thumb--add svg { width: 16px; height: 16px; }
