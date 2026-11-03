@@ -1,0 +1,45 @@
+/*
+ * Mockup-only styles for the future plugin ideas (camera filters #385, Malware check #372).
+ * Everything else comes from the app's real CSS (plugin browse, install prompt, permission list,
+ * installed list) and from ../epic-4.1/mock.css (static shell stand-ins). The camera preview and
+ * camera tile are new components built from the same tokens. People are invented illustrations.
+ */
+.person { display: block; width: 100%; height: 100%; }
+
+/* --- Camera preview dialog ---------------------------------------------------------------- */
+.cam-dialog { width: min(40rem, calc(100vw - 2 * var(--space-4))); max-width: none; }
+.cam-sub { margin: 0 0 var(--space-3); color: var(--color-text-secondary); }
+.cam-frame { position: relative; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); background: #000; border: 1px solid var(--color-border-strong); }
+.cam-frame__pill, .cam-frame__track { position: absolute; display: inline-flex; gap: var(--space-2); align-items: center; padding: 0.125rem var(--space-2); border-radius: var(--radius-full); background: rgb(0 0 0 / 0.6); color: #fff; font-size: var(--font-size-sm); }
+.cam-frame__pill { top: var(--space-2); left: var(--space-2); }
+.cam-frame__track { bottom: var(--space-2); left: var(--space-2); color: #7df3c8; }
+.cam-frame__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #ffb454; }
+.cam-filters { margin-top: var(--space-3); }
+.cam-filters__head { display: flex; gap: var(--space-2); align-items: baseline; margin-bottom: var(--space-2); }
+.cam-picker { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.cam-pick { display: flex; flex-direction: column; gap: var(--space-1); align-items: center; min-width: 5.25rem; padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: transparent; color: var(--color-text); font: inherit; font-size: var(--font-size-sm); }
+.cam-pick__icon { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: var(--radius-md); background: var(--color-bg-elevated); }
+.cam-pick[aria-checked="true"] { border-color: var(--color-accent); background: var(--color-bg-selected); font-weight: var(--font-weight-bold); }
+.cam-pick[aria-checked="true"] .cam-pick__icon { color: var(--color-accent-text); }
+.cam-note { margin: var(--space-3) 0 0; }
+.cam-link { color: var(--color-accent-text); }
+.cam-stage-bg { background: var(--color-bg); }
+
+/* --- Camera room ------------------------------------------------------------------------- */
+.cam-room { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-4); }
+.cam-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.cam-tile { position: relative; margin: 0; overflow: hidden; aspect-ratio: 16 / 9; border-radius: var(--radius-lg); border: 1px solid var(--color-border); background: var(--color-bg-elevated); }
+.cam-tile--speaking { outline: 3px solid var(--color-success); outline-offset: -3px; }
+.cam-tile--voice { display: grid; place-items: center; align-content: center; gap: var(--space-2); }
+.cam-tile--voice .cam-tile__name { position: static; background: none; color: var(--color-text); padding: 0; }
+.cam-tile__name { position: absolute; left: var(--space-2); bottom: var(--space-2); display: inline-flex; gap: var(--space-2); align-items: center; padding: 0.125rem var(--space-2); border-radius: var(--radius-sm); background: rgb(0 0 0 / 0.6); color: #fff; font-size: var(--font-size-sm); }
+.cam-tile__mic--off { display: inline-flex; color: #ff8a80; }
+.cam-badge { position: absolute; top: var(--space-2); right: var(--space-2); display: inline-flex; gap: 0.25rem; align-items: center; padding: 0.125rem var(--space-2); border-radius: var(--radius-full); background: rgb(0 0 0 / 0.6); color: #fff; font-size: 0.75rem; font-weight: var(--font-weight-bold); letter-spacing: 0.02em; }
+.cam-room__note { margin: 0; }
+
+/* --- Plugin options ---------------------------------------------------------------------- */
+.opt-swatches { display: flex; gap: var(--space-2); }
+.opt-swatch { width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 2px solid transparent; }
+.opt-swatch--on { outline: 2px solid var(--color-text); outline-offset: 2px; }
+.opt-range { width: 12rem; accent-color: var(--color-accent); }
+.opt-value { min-width: 3rem; }
