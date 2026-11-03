@@ -1,7 +1,7 @@
 /*
  * Mockup-only styles for the future plugin ideas (camera filters #385, Malware check #372).
  * Everything else comes from the app's real CSS (plugin browse, install prompt, permission list,
- * installed list) and from ../epic-4.1/mock.css (static shell stand-ins). The camera preview and
+ * installed list) and from shell.css (static shell stand-ins, copied from the Epic 4.1 mockups). The
  * camera tile are new components built from the same tokens. People are invented illustrations.
  */
 .person { display: block; width: 100%; height: 100%; }
