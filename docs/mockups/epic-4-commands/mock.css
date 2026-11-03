@@ -1,0 +1,59 @@
+/*
+ * Mockup-only styles for Epic 4 (admin slash commands). Everything else comes from the app's real CSS.
+ * The command list reuses the plugin command picker; the new parts are section headings, the
+ * "Built-in" tag, the usage hint, the inline error and the chat result line.
+ */
+html, body { height: 900px; }
+body { overflow: hidden; }
+.chat-composer__input { resize: none; }
+/* --- Static stand-ins for the app's channel column and user panel ------------------------- */
+.mock-section { padding: var(--space-3) var(--space-3) var(--space-1); }
+.mock-section .server-section__title { display: flex; gap: var(--space-2); align-items: center; margin: 0; font-size: var(--font-size-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-secondary); }
+.mock-section .server-section__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--color-success); }
+.mock-tree, .mock-people { margin: 0; padding: 0 var(--space-2); list-style: none; }
+.mock-people { padding: 0 0 var(--space-1) var(--space-5); }
+.mock-tree { flex: 1; }
+.mock-channel .tree-channel__row { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-text-secondary); }
+.mock-channel .tree-channel__row[data-here] { background: var(--color-bg-selected); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.mock-hash { display: inline-block; width: 16px; text-align: center; color: var(--color-text-muted); }
+.mock-person .tree-person__row { display: flex; gap: var(--space-2); align-items: center; padding: 0.1875rem var(--space-2); font-size: var(--font-size-sm); color: var(--color-text); }
+.mock-person .tree-person__you { color: var(--color-text-muted); }
+.mock-userpanel { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); }
+.mock-muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.mock-server { display: grid; place-items: center; width: 3rem; height: 3rem; margin: 0 auto var(--space-2); border: 0; border-radius: var(--radius-lg); background: var(--color-bg-elevated); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.server-bar__server.mock-server--active { background: var(--gradient-accent); color: var(--color-on-accent); box-shadow: var(--shadow-glow); color: var(--color-on-accent) !important; }
+.server-bar__list { margin: 0; padding: 0; list-style: none; }
+.chat-list-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.chat-list__items { margin: 0; padding: var(--space-4) 0; list-style: none; }
+.chat-message p { margin: 0; }
+
+/* --- Command picker additions ------------------------------------------------------------- */
+.mention-picker__list { max-height: none; }
+.mock-builtin { flex: none; margin-left: auto; padding: 0 var(--space-2); border: 1px solid var(--color-border-strong); border-radius: var(--radius-full); font-size: var(--font-size-xs); color: var(--color-text-secondary); }
+.mock-usage { font-family: var(--font-family-mono, monospace); color: var(--color-text-secondary); }
+.mock-person-loc { flex: none; margin-left: auto; font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.mock-reason-hint { margin: 0; display: flex; gap: var(--space-2); align-items: center; padding: var(--space-2); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+.mock-reason-hint code { color: var(--color-text); }
+.mock-ghost { color: var(--color-text-muted); }
+.mock-error-title { margin: 0 0 var(--space-1); font-weight: var(--font-weight-bold); }
+.chat-composer__error { display: flex; gap: var(--space-2); align-items: flex-start; }
+.chat-composer__error svg { flex: none; margin-top: 0.1rem; }
+.chat-composer__input[aria-invalid="true"] { border-color: var(--color-danger); }
+
+/* --- Result line in the chat: a system line only the admin sees ---------------------------- */
+.mock-result { display: flex; gap: var(--space-2); align-items: center; justify-content: center; margin: var(--space-3) var(--space-4); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.mock-result strong { color: var(--color-text); }
+.mock-result__only { padding: 0 var(--space-2); border-radius: var(--radius-full); background: var(--color-bg-elevated); font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.mock-person-muted { color: var(--color-danger); }
+
+/* --- Ban dialog, shown open for the screenshot ---------------------------------------------- */
+.mock-backdrop { position: fixed; inset: 0; z-index: 20; background: var(--color-backdrop); }
+.mock-dialog { position: fixed; inset: 0; z-index: 21; margin: auto; height: fit-content; width: min(30rem, calc(100vw - 2rem)); }
+.mock-dialog p { margin: 0 0 var(--space-3); }
+.ban__from { display: inline-flex; gap: var(--space-1); align-items: center; padding: 0 var(--space-2); border-radius: var(--radius-full); background: color-mix(in srgb, var(--color-accent) 18%, transparent); font-size: var(--font-size-xs); color: var(--color-accent-text); }
+.ban__who { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-bg-elevated); margin-bottom: var(--space-3); }
+.ban__check { display: flex; gap: var(--space-2); align-items: center; margin: var(--space-1) 0; }
+.ban__end { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.ban__link { background: none; border: 0; padding: 0; color: var(--color-accent-text); text-decoration: underline; cursor: pointer; font: inherit; margin-right: auto; }
+.ban__actions { align-items: center; }
+.button--danger { border-color: var(--color-danger); color: var(--color-danger); font-weight: var(--font-weight-bold); }
