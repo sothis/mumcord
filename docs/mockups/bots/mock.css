@@ -1,0 +1,67 @@
+/*
+ * Mockup-only styles for showing bots separately. Everything else comes from the app's real CSS.
+ * New parts (the bot badge, the "Bots on this server" section, the bot rows) are built from the
+ * same theme tokens as the Mumcord badge, the members panel sections and the tree rows.
+ */
+/* Google Fonts serves the bundled @fontsource fonts under their plain names. */
+:root { --font-family: "Instrument Sans", system-ui, sans-serif; --font-family-display: "Bricolage Grotesque", var(--font-family); }
+/* Fixed 1440×900 window for the screenshots. */
+html, body { height: 900px; }
+body { overflow: hidden; }
+.chat-composer__input { resize: none; }
+
+/* --- Static stand-ins for the app's channel column and user panel ------------------------- */
+.shell__channel-column { display: flex; flex-direction: column; min-height: 0; }
+.mock-section { padding: var(--space-3) var(--space-3) var(--space-1); }
+.mock-section .server-section__title { display: flex; gap: var(--space-2); align-items: center; margin: 0; font-size: var(--font-size-sm); text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-secondary); }
+.mock-section .server-section__dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--color-success); }
+.mock-tree, .mock-people { margin: 0; padding: 0 var(--space-2); list-style: none; }
+.mock-people { padding: 0 0 var(--space-1) var(--space-5); }
+.mock-tree { flex: 1; }
+.mock-channel .tree-channel__row { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-text-secondary); }
+.mock-channel .tree-channel__row[data-here] { background: var(--color-bg-selected); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.mock-hash { display: inline-block; width: 16px; text-align: center; color: var(--color-text-muted); }
+.mock-person .tree-person__row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; padding: 0.1875rem var(--space-2); font-size: var(--font-size-sm); color: var(--color-text); }
+.mock-person .tree-person__you { color: var(--color-text-muted); }
+.mock-person__sub { flex-basis: 100%; margin: -0.25rem 0 0 calc(1.5rem + var(--space-2)); font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.mock-userpanel { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); }
+.mock-muted { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.mock-server { display: grid; place-items: center; width: 3rem; height: 3rem; margin: 0 auto var(--space-2); border: 0; border-radius: var(--radius-lg); background: var(--color-bg-elevated); color: var(--color-text); font-weight: var(--font-weight-bold); }
+.server-bar__server.mock-server--active { background: var(--gradient-accent); color: var(--color-on-accent) !important; box-shadow: var(--shadow-glow); }
+.server-bar__list { margin: 0; padding: 0; list-style: none; }
+.chat-list-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.chat-list__items { margin: 0; padding: var(--space-4) 0; list-style: none; }
+.chat-message p { margin: 0; }
+.mock-composer { position: relative; }
+
+/* Marks what is new compared with today's client. */
+.mock-new-outline { border-radius: var(--radius-sm); box-shadow: 0 0 0 2px var(--color-accent); }
+
+/* --- New: the bot badge ---------------------------------------------------------------------
+   Takes the Mumcord badge's place next to the name; text plus icon so it never relies on colour. */
+.mock-bot-badge { display: inline-flex; gap: 2px; align-items: center; margin-left: var(--space-1); padding: 0 5px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--color-accent) 22%, transparent); color: var(--color-text); font-size: 0.625rem; font-weight: var(--font-weight-bold); letter-spacing: 0.04em; line-height: 1.5; vertical-align: middle; }
+/* Bots get a rounded-square avatar, so they read as "not a person" even without the badge. */
+
+/* --- New: "Bots on this server" at the bottom of the server overview ------------------------ */
+.mock-bots { margin: var(--space-2); padding: var(--space-2); border-top: 1px solid var(--color-border); }
+.mock-bots h2 { margin: 0 0 var(--space-1); color: var(--color-text-secondary); font-size: var(--font-size-sm); text-transform: uppercase; }
+.mock-bots__list { margin: 0; padding: 0; list-style: none; }
+.mock-bot { display: flex; gap: var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.mock-bot[data-selected] { background: var(--color-bg-hover); }
+.mock-bot__text { display: flex; flex-direction: column; min-width: 0; }
+.mock-bot__name { font-size: var(--font-size-sm); color: var(--color-text); }
+.mock-bot__what { font-size: var(--font-size-xs); color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* --- Popups shown open for the screenshot ----------------------------------------------------- */
+.mock-picker { min-width: 22rem; }
+.mock-picker .mention-picker__keys { padding-bottom: var(--space-1); }
+.mock-preview { top: 560px; left: calc(var(--width-server-bar) + 17.5rem + var(--space-2)); }
+.mock-preview p { margin: 0; }
+
+/* The screenshot window is the whole page. */
+.shell { height: 900px; }
+/* "Server overview" heading as the app styles it on its branch: small, uppercase, secondary. */
+.server-overview { padding: var(--space-2) var(--space-3) 0; }
+.server-overview h2 { margin: 0 0 var(--space-1); color: var(--color-text-secondary); font-size: var(--font-size-sm); text-transform: uppercase; }
+.avatar.mock-bot-avatar[data-size] { border-radius: 30%; }
+.mock-preview .profile-preview__name { white-space: normal; overflow: visible; }
