@@ -1,0 +1,56 @@
+/*
+ * Mockup-only styles for the plugin frame mute button options (spec 09, FR-9.43). Built from the
+ * same tokens as the plugin tag in mock.css. Each page shows one option on the three surfaces
+ * (stage, side panel, dialog) in four states: unmuted, muted, muted by deafen, keyboard focus.
+ */
+body { overflow: auto; background: var(--color-bg-app, var(--color-bg)); color: var(--color-text-primary); font-family: var(--font-body, system-ui); }
+.mo { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+.mo h1 { margin: 0; font-size: 1.25rem; }
+.mo__lead { margin: 0; color: var(--color-text-secondary); font-size: var(--font-size-sm); max-width: 62rem; }
+.mo__grid { display: grid; grid-template-columns: 5.5rem repeat(4, 1fr); gap: var(--space-3); align-items: start; }
+.mo__col { font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); }
+.mo__col small { display: block; font-weight: normal; color: var(--color-text-muted); font-size: var(--font-size-xs); }
+.mo__row { font-weight: var(--font-weight-bold); font-size: var(--font-size-sm); padding-top: var(--space-2); }
+.mo__cell { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-bg-elevated, var(--color-bg-hover)); min-height: 9.5rem; }
+.mo__cell--stage { background: #14101f; border-color: var(--media-glass-border); color: var(--media-on-scrim-muted); }
+.mo__bar { display: flex; gap: 6px; align-items: center; min-height: 1.9rem; font-size: var(--font-size-xs); }
+.mo__bar b { font-weight: var(--font-weight-bold); }
+.mo__bar .ps-iconbtn:first-of-type { margin-left: auto; }
+.mo__cell--stage .cam-btn { height: 1.75rem; }
+.mo .ps-frame { flex: 1; min-height: 5.5rem; background: radial-gradient(circle at 70% 10%, #3a2618, #120c08 75%); }
+.mo__cell--side .ps-frame, .mo__cell--dialog .ps-frame { border-color: var(--color-border-strong); }
+.mo__cell--side .ps-frame { background: #fbfaf6; }
+
+/* The mute button reuses the plugin tag's pill (same fill, size and radius). */
+.ps-frame__mute { position: absolute; z-index: 3; display: inline-flex; gap: 4px; align-items: center; height: 1.375rem; padding: 0 var(--space-2); border: 0; border-radius: var(--radius-full); background: rgb(0 0 0 / 0.62); color: #e9e4ff; font: inherit; font-size: 0.6875rem; cursor: pointer; }
+.ps-frame__mute--br { right: var(--space-2); bottom: var(--space-2); }
+.ps-frame__mute--inline { position: static; flex: none; }
+.ps-frame__mute[aria-pressed="true"] { background: #ffcf70; color: #2a1d00; }
+.ps-frame__mute[disabled] { opacity: 0.55; cursor: not-allowed; }
+.ps-frame__mute[data-focus] { outline: var(--focus-ring-width, 2px) solid var(--color-focus); outline-offset: 2px; }
+.ps-frame__tagrow { position: absolute; left: var(--space-2); bottom: var(--space-2); z-index: 3; display: flex; gap: 6px; align-items: center; }
+.ps-frame__tagrow .ps-frame__tag { position: static; }
+
+/* Header variants (B): the mute button sits with the other header controls. */
+.mo__bar .ps-frame__mute { position: static; }
+.mo__bar .cam-btn[aria-pressed="true"] { background: #ffcf70; color: #2a1d00; }
+.mo__bar .cam-btn[disabled] { opacity: 0.55; cursor: not-allowed; }
+.mo__bar .cam-btn[data-focus], .mo__bar .ps-iconbtn[data-focus] { outline: var(--focus-ring-width, 2px) solid var(--color-focus); outline-offset: 2px; }
+.mo__bar .ps-iconbtn[aria-pressed="true"] { background: #ffcf70; color: #2a1d00; }
+.mo__bar .ps-iconbtn[disabled] { opacity: 0.55; cursor: not-allowed; }
+
+/* Static tooltip, drawn open so the mockup shows it. */
+.mo__tip { position: absolute; z-index: 5; padding: 3px var(--space-2); border-radius: var(--radius-md); background: var(--color-bg-elevated-strong, #1b1730); color: #fff; border: 1px solid var(--media-glass-border, #4a4466); font-size: 0.6875rem; white-space: nowrap; box-shadow: 0 4px 14px rgb(0 0 0 / 0.35); }
+[data-theme="light"] .mo__tip { background: #2b2540; }
+.mo__wrap { position: relative; display: inline-flex; }
+.mo__wrap .mo__tip { bottom: calc(100% + 6px); right: 0; }
+.mo__wrap--hdr .mo__tip { top: calc(100% + 6px); bottom: auto; right: 0; }
+.mo__wrap--left .mo__tip { right: auto; left: 0; }
+.mo__note { color: var(--color-text-muted); font-size: var(--font-size-xs); margin: 0; }
+.mo__bar { white-space: nowrap; }
+.mo__bar .cam-btn { white-space: nowrap; padding-inline: 6px; gap: 4px; }
+.mo__cell--stage .mo__bar b { color: #fff; }
+.mo__cell--stage .cam-btn { color: #fff; }
+.mo__grid { grid-template-columns: 5.5rem repeat(4, minmax(0, 1fr)); }
+.mo__wrap--br { position: absolute; right: var(--space-2); bottom: var(--space-2); z-index: 3; }
+.mo__wrap--br .ps-frame__mute--br { position: static; }
