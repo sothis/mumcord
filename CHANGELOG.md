@@ -29,6 +29,7 @@
 
 ### Fixed
 
+- The full-screen button inside an embedded YouTube or Twitch player works: Mumcord now answers the web view's full-screen request, so the video fills the window and Escape brings the chat back (Linux; on Windows and macOS the engine already did this). The card carries Mumcord's own Full screen and Copy link controls too, and Copy link puts the video's address on the clipboard, because a player page cannot copy by itself (#419)
 - A middle click on a link, or a click with Ctrl, Cmd or Shift held, opens it in your browser like a normal click. It used to load the page inside Mumcord, in a window of its own or in place of the whole app, and no page from outside ever gets a Mumcord window now (#418)
 - A chat message you send now stays in the right time order: a message someone else wrote while yours was being sent no longer ends up above yours, before or after a restart
 - Chat history of locked channels (password or restricted entry) is no longer shared with people who only follow or listen to them: only people inside the channel get its earlier messages, and members who use a channel password must prove they know the current one. "Follow all" now skips channels you may not enter. Older Mumcord versions still share it, so everyone should update (#382)
