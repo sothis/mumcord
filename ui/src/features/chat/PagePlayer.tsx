@@ -5,7 +5,7 @@
  * the app stops its server once nothing plays. A player that fails for lack of H.264 gets the
  * install hint under it (FR-2.41a).
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { getApi } from "../../api";
 import {
   CodecHint,
@@ -22,10 +22,13 @@ interface PagePlayerProps {
   title: string;
   /** The page could not be opened. */
   onFailed: () => void;
+  /** The player element, so the card can put it on the screen (issue #419). */
+  frameRef?: RefObject<HTMLIFrameElement | null>;
 }
 
-export function PagePlayer({ playerUrl, title, onFailed }: PagePlayerProps) {
-  const frame = useRef<HTMLIFrameElement>(null);
+export function PagePlayer({ playerUrl, title, onFailed, frameRef }: PagePlayerProps) {
+  const own = useRef<HTMLIFrameElement>(null);
+  const frame = frameRef ?? own;
   const [pageUrl, setPageUrl] = useState<string | null>(null);
   const [youTubeError, setYouTubeError] = useState<number | null>(null);
   const onFailedRef = useRef(onFailed);
@@ -83,7 +86,7 @@ export function PagePlayer({ playerUrl, title, onFailed }: PagePlayerProps) {
     return () => {
       window.removeEventListener("message", onMessage);
     };
-  }, [origin]);
+  }, [origin, frame]);
 
   if (pageUrl === null || origin === null) return null;
   // Twitch's embed reports no errors, but it streams only in H.264.

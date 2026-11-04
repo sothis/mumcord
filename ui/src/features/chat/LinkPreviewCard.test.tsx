@@ -235,6 +235,30 @@ describe("link preview cards", () => {
     );
   });
 
+  it("copies the canonical video address with Mumcord's own control (issue #419)", async () => {
+    const embed = "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1";
+    vi.spyOn(api, "linkPreview").mockResolvedValue({ ...VIDEO, url: embed });
+    const copy = vi.spyOn(api, "copyText").mockResolvedValue(null);
+    const { container } = renderMessage(`<a href="${embed}">video</a>`, true);
+    await screen.findByRole("article", { name: "Link preview: Never gonna" });
+    fireEvent.click(screen.getByRole("button", { name: "Copy link" }));
+    expect(copy).toHaveBeenCalledWith("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    expect(await screen.findByText("Link copied")).toBeTruthy();
+    expect(await axeViolations(container)).toEqual([]);
+  });
+
+  it("puts the player on the screen with Mumcord's own control (issue #419)", async () => {
+    vi.spyOn(api, "linkPreview").mockResolvedValue(VIDEO);
+    renderMessage(`<a href="${VIDEO.url}">video</a>`, true);
+    fireEvent.click(await screen.findByRole("button", { name: "Play Never gonna" }));
+    const frame = await screen.findByTitle<HTMLIFrameElement>("Video player: Never gonna");
+    // jsdom has no full screen: only the request itself is checked.
+    const request = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(frame, "requestFullscreen", { value: request, configurable: true });
+    fireEvent.click(screen.getByRole("button", { name: "Full screen" }));
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
   it("opens the browser when the player page cannot be opened", async () => {
     vi.spyOn(api, "linkPreview").mockResolvedValue(VIDEO);
     vi.spyOn(api, "embedPlayerOpen").mockRejectedValue({ code: "io", message: "bind" });

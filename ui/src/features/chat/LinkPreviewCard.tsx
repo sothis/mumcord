@@ -6,7 +6,7 @@
  * rendered as such; images are `data:` URLs from the engine, so the webview never contacts the
  * linked site.
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { LinkPreview, VideoEmbed } from "../../api";
 import { dismissPreview, useDismissedPreviews } from "./dismissedPreviews";
@@ -25,13 +25,14 @@ import { credentialLinks, mumbleLinks } from "./mumbleLink";
 
 import { MumbleLinkCard } from "./MumbleLinkCard";
 import { openInBrowser } from "./openLink";
-import { DismissButton, OpenButton } from "./cardButtons";
+import { CopyLinkButton, DismissButton, OpenButton } from "./cardButtons";
 import { EmbedHiddenHint } from "./EmbedHiddenHint";
 import { hiddenEmbedKind } from "./embedHint";
 import { InlineImageCard } from "./InlineImageCard";
 import { AudioCard } from "./AudioCard";
 import { MusicCard } from "./MusicCard";
 import { useExclusivePlayback } from "./playback";
+import { useFullscreen } from "../media/useFullscreen";
 import { PagePlayer } from "./PagePlayer";
 import { WatchTogetherButton } from "../watchparty";
 
@@ -51,6 +52,8 @@ interface LinkPreviewsProps {
   tabIndex: number;
   /** Click on an inline image; without it the image opens in the browser. */
   onImageClick?: ImageClickHandler | undefined;
+  /** The message's copy path, so "Link copied" shows in the chat's live region (issue #419). */
+  onCopy: (text: string) => void;
 }
 
 /**
@@ -65,6 +68,7 @@ export function LinkPreviews({
   linkPreviews,
   tabIndex,
   onImageClick,
+  onCopy,
 }: LinkPreviewsProps) {
   const links = useMemo(() => previewableLinks(html), [html]);
   const images = useMemo(() => externalImages(body), [body]);
@@ -120,6 +124,7 @@ export function LinkPreviews({
             messageId={messageId}
             tabIndex={tabIndex}
             onImageClick={onImageClick}
+            onCopy={onCopy}
           />
         ),
       )}
@@ -132,9 +137,10 @@ interface CardProps {
   messageId: string;
   tabIndex: number;
   onImageClick: ImageClickHandler | undefined;
+  onCopy: (text: string) => void;
 }
 
-function LinkPreviewCard({ url, messageId, tabIndex, onImageClick }: CardProps) {
+function LinkPreviewCard({ url, messageId, tabIndex, onImageClick, onCopy }: CardProps) {
   const [preview, setPreview] = useState<LinkPreview | null>(null);
   useEffect(() => {
     let active = true;
@@ -167,7 +173,13 @@ function LinkPreviewCard({ url, messageId, tabIndex, onImageClick }: CardProps) 
     );
   }
   return preview.video ? (
-    <VideoCard preview={preview} video={preview.video} tabIndex={tabIndex} onDismiss={dismiss} />
+    <VideoCard
+      preview={preview}
+      video={preview.video}
+      tabIndex={tabIndex}
+      onDismiss={dismiss}
+      onCopy={onCopy}
+    />
   ) : (
     <PageCard preview={preview} tabIndex={tabIndex} onDismiss={dismiss} />
   );
@@ -209,11 +221,15 @@ interface VideoCardProps {
   video: VideoEmbed;
   tabIndex: number;
   onDismiss: () => void;
+  onCopy: (text: string) => void;
 }
 
-function VideoCard({ preview, video, tabIndex, onDismiss }: VideoCardProps) {
+function VideoCard({ preview, video, tabIndex, onDismiss, onCopy }: VideoCardProps) {
   const { t } = useTranslation("chat");
+  const { t: tc } = useTranslation("common");
   const [playing, setPlaying] = useState(false);
+  const frame = useRef<HTMLIFrameElement>(null);
+  const { fullscreen, toggle } = useFullscreen(frame);
   const stop = useCallback(() => {
     setPlaying(false);
   }, []);
@@ -223,21 +239,40 @@ function VideoCard({ preview, video, tabIndex, onDismiss }: VideoCardProps) {
   const title = preview.title ?? t("preview.videoTitle", { site });
   const thumbnail = safeImage(preview.image);
   return (
-    <article className="link-card link-card--video" aria-label={t("preview.card", { title })}>
+    <article
+      className="link-card link-card--video"
+      data-link-url={preview.url}
+      aria-label={t("preview.card", { title })}
+    >
       <div className="link-card__text">
         <p className="link-card__site">{site}</p>
         <p className="link-card__title">{title}</p>
         {video.channel !== null && <p className="link-card__description">{video.channel}</p>}
       </div>
       {playing && player !== null ? (
-        <PagePlayer
-          playerUrl={player.url}
-          title={t("preview.player", { title })}
-          onFailed={() => {
-            setPlaying(false);
-            openInBrowser(preview.url);
-          }}
-        />
+        <>
+          <PagePlayer
+            playerUrl={player.url}
+            title={t("preview.player", { title })}
+            frameRef={frame}
+            onFailed={() => {
+              setPlaying(false);
+              openInBrowser(preview.url);
+            }}
+          />
+          {/* Mumcord's own controls: the player's live in the page of its own (issue #419). */}
+          <div className="link-card__player-actions">
+            <button
+              type="button"
+              className="link-card__open link-card__fullscreen"
+              tabIndex={tabIndex}
+              data-tooltip={fullscreen ? tc("media.exitFullscreen") : tc("media.fullscreen")}
+              onClick={toggle}
+            >
+              {fullscreen ? tc("media.exitFullscreen") : tc("media.fullscreen")}
+            </button>
+          </div>
+        </>
       ) : (
         <button
           type="button"
@@ -260,6 +295,7 @@ function VideoCard({ preview, video, tabIndex, onDismiss }: VideoCardProps) {
         <WatchTogetherButton playerUrl={video.playerUrl} title={title} tabIndex={tabIndex} />
       )}
       <OpenButton url={preview.url} title={title} tabIndex={tabIndex} />
+      <CopyLinkButton url={preview.url} tabIndex={tabIndex} onCopy={onCopy} />
       <DismissButton onDismiss={onDismiss} tabIndex={tabIndex} />
     </article>
   );

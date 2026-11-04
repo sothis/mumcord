@@ -3,6 +3,7 @@
  */
 import { useTranslation } from "react-i18next";
 import { openInBrowser } from "./openLink";
+import { canonicalVideoUrl } from "./videoLink";
 
 export function DismissButton({
   onDismiss,
@@ -51,6 +52,34 @@ export function OpenButton({
       }}
     >
       {t("preview.open")}
+    </button>
+  );
+}
+
+interface CopyLinkButtonProps {
+  url: string;
+  tabIndex: number;
+  /** The message's copy path, so the confirmation shows in the chat's live region. */
+  onCopy: (text: string) => void;
+}
+
+/**
+ * "Copy link" for a card (issue #419). The player runs in a page of its own, where the clipboard
+ * is closed, so copying has to come from Mumcord: the canonical video address, without the
+ * parameters the player adds.
+ */
+export function CopyLinkButton({ url, tabIndex, onCopy }: CopyLinkButtonProps) {
+  const { t } = useTranslation("chat");
+  return (
+    <button
+      type="button"
+      className="link-card__copy"
+      tabIndex={tabIndex}
+      onClick={() => {
+        onCopy(canonicalVideoUrl(url));
+      }}
+    >
+      {t("linkMenu.copy")}
     </button>
   );
 }

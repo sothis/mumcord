@@ -68,6 +68,7 @@ import { linkMentions, MENTION_CLASS, mentionPeopleOf } from "./mentionChips";
 import { originalSrc } from "./displaySrc";
 import { imageName, type ImageClickHandler } from "./links";
 import { openInBrowser, openLink } from "./openLink";
+import { canonicalVideoUrl } from "./videoLink";
 import { useIsMention } from "./ownMention";
 import { ContextMenu, type MenuPosition } from "../../components/ContextMenu";
 import { findOriginal, parseReply, quoteFor, replyOf, type ReplyQuote } from "./reply";
@@ -134,6 +135,8 @@ interface BodyProps {
   clickablePeople: boolean;
   /** Scrolls to the original of a reply; `null` when it is not in the loaded history. */
   onJump: (() => void) | null;
+  /** Copies a card link (issue #419); the same path the link menu uses, with its confirmation. */
+  onCopy: (text: string) => void;
 }
 
 /** The mention chip an event happened on, with the person it stands for. */
@@ -214,6 +217,7 @@ function TextBody({
   onImageClick,
   clickablePeople,
   onJump,
+  onCopy,
 }: BodyProps) {
   const { t } = useTranslation("chat");
   const html = message.body;
@@ -349,6 +353,7 @@ function TextBody({
         linkPreviews={previews}
         tabIndex={tabIndex}
         onImageClick={onImageClick}
+        onCopy={onCopy}
       />
     </PluginLine>
   );
@@ -748,6 +753,11 @@ export function MessageList({
     },
   });
 
+  /** "Copy link" on a card's control (issue #419): the player cannot copy from its own page. */
+  function copyCardLink(url: string) {
+    copyText(url, t("linkMenu.copied"), "a card link");
+  }
+
   // Ctrl+C: plain text with line breaks, without the hidden labels the browser would copy too.
   function onCopy(event: ClipboardEvent<HTMLDivElement>) {
     const text = selectedText(window.getSelection(), event.currentTarget);
@@ -792,19 +802,26 @@ export function MessageList({
     if (event.defaultPrevented) return;
     const selection = selectedText(window.getSelection(), scrollRef.current);
     if (openImageMenu(event, selection)) return;
-    // A link has its own menu; this also keeps the webview's default one away.
-    const anchor = event.target instanceof Element ? event.target.closest("a[href]") : null;
-    const url = anchor?.getAttribute("href")?.trim();
-    if (anchor instanceof HTMLElement && url && SAFE_LINK.test(url)) {
+    // A link has its own menu; this also keeps the webview's default one away. A card under the
+    // message gets the same menu for its link, because the player cannot copy from the page it
+    // runs in (issue #419).
+    const source =
+      event.target instanceof Element ? event.target.closest("a[href], [data-link-url]") : null;
+    const raw =
+      source === null
+        ? null
+        : (source.getAttribute("href") ?? source.getAttribute("data-link-url"));
+    const url = raw?.trim() ?? "";
+    if (source instanceof HTMLElement && url !== "" && SAFE_LINK.test(url)) {
       event.preventDefault();
-      const rect = anchor.getBoundingClientRect();
+      const rect = source.getBoundingClientRect();
       const keyboard = event.clientX === 0 && event.clientY === 0;
       setLinkMenu({
-        url,
+        url: source.hasAttribute("data-link-url") ? canonicalVideoUrl(url) : url,
         selection,
         x: keyboard ? rect.left : event.clientX,
         y: keyboard ? rect.bottom : event.clientY,
-        opener: anchor,
+        opener: source,
       });
       return;
     }
@@ -824,9 +841,9 @@ export function MessageList({
 
   // The rows are memoised, so they get one stable set of actions that always calls the latest
   // handlers instead of closures that change on every render.
-  const latest = useRef({ reply, openMenu, jumpTo, openViewer });
+  const latest = useRef({ reply, openMenu, jumpTo, openViewer, copyCardLink });
   useEffect(() => {
-    latest.current = { reply, openMenu, jumpTo, openViewer };
+    latest.current = { reply, openMenu, jumpTo, openViewer, copyCardLink };
   });
 
   // Another feature asked to show a message (notification centre, #143): jump once it is here.
@@ -857,6 +874,9 @@ export function MessageList({
       },
       showBlocked: (id) => {
         setShownBlocked((before) => new Set(before).add(id));
+      },
+      copyLink: (url) => {
+        latest.current.copyCardLink(url);
       },
     }),
     [],
@@ -1120,6 +1140,8 @@ interface MessageItemActions {
   jumpTo: (index: number) => void;
   onImageClick: ImageClickHandler;
   showBlocked: (id: string) => void;
+  /** "Copy link" on a card control or the card's menu (issue #419). */
+  copyLink: (url: string) => void;
 }
 
 interface MessageItemProps {
@@ -1170,7 +1192,7 @@ const MessageItem = memo(function MessageItem({
   actions,
 }: MessageItemProps) {
   const t = useT("chat");
-  const { onImageClick } = actions;
+  const { onImageClick, copyLink } = actions;
   const itemRef = useCallback(
     (element: HTMLLIElement | null) => {
       actions.setRef(index, element);
@@ -1291,6 +1313,7 @@ const MessageItem = memo(function MessageItem({
           onImageClick={onImageClick}
           clickablePeople={clickablePeople}
           onJump={onJump}
+          onCopy={copyLink}
         />
         {origin}
       </div>
@@ -1330,6 +1353,7 @@ const MessageItem = memo(function MessageItem({
             onImageClick={onImageClick}
             clickablePeople={clickablePeople}
             onJump={onJump}
+            onCopy={copyLink}
           />
           {origin}
         </div>
@@ -1349,6 +1373,7 @@ const MessageItem = memo(function MessageItem({
             onImageClick={onImageClick}
             clickablePeople={clickablePeople}
             onJump={onJump}
+            onCopy={copyLink}
           />
           {origin}
         </div>

@@ -961,6 +961,24 @@
   border-radius: var(--radius-md);
 }
 
+/* Full screen (issue #419): the player takes the whole window, so the card's box is gone. The
+   web view only answers a page that Mumcord allowed, and the player's own button does the same. */
+.link-card__player:fullscreen {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: #000;
+}
+
+/* Mumcord's own controls under a card player: the player's buttons live in the page the player
+   runs in, so the app's controls sit below it (issue #419). */
+.link-card__player-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
 /* Missing-codec hint under a chat card's player (FR-2.41a). */
 .link-card__codec-hint {
   flex-basis: 100%;
@@ -1055,7 +1073,9 @@
   background: var(--color-bg-hover);
 }
 
-.link-card__open {
+.link-card__open,
+.link-card__copy,
+.link-card__fullscreen {
   align-self: flex-start;
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--color-border-strong);
@@ -1066,7 +1086,9 @@
   cursor: pointer;
 }
 
-.link-card__open:hover {
+.link-card__open:hover,
+.link-card__copy:hover,
+.link-card__fullscreen:hover {
   background: var(--color-bg-hover);
 }
 
