@@ -40,7 +40,6 @@ body { overflow: hidden; }
 /* --- New: the bot badge ---------------------------------------------------------------------
    Takes the Mumcord badge's place next to the name; text plus icon so it never relies on colour. */
 .mock-bot-badge { display: inline-flex; gap: 2px; align-items: center; margin-left: var(--space-1); padding: 0 5px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--color-accent) 22%, transparent); color: var(--color-text); font-size: 0.625rem; font-weight: var(--font-weight-bold); letter-spacing: 0.04em; line-height: 1.5; vertical-align: middle; }
-/* Bots get a rounded-square avatar, so they read as "not a person" even without the badge. */
 
 /* --- New: "Bots on this server" at the bottom of the server overview ------------------------ */
 .mock-bots { margin: var(--space-2); padding: var(--space-2); border-top: 1px solid var(--color-border); }
@@ -63,5 +62,4 @@ body { overflow: hidden; }
 /* "Server overview" heading as the app styles it on its branch: small, uppercase, secondary. */
 .server-overview { padding: var(--space-2) var(--space-3) 0; }
 .server-overview h2 { margin: 0 0 var(--space-1); color: var(--color-text-secondary); font-size: var(--font-size-sm); text-transform: uppercase; }
-.avatar.mock-bot-avatar[data-size] { border-radius: 30%; }
 .mock-preview .profile-preview__name { white-space: normal; overflow: visible; }
